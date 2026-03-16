@@ -1,459 +1,472 @@
-</body>
-</html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Dokumentasi API modern dan antarmuka pengujian yang interaktif. Jelajahi berbagai endpoint API kami dengan mudah.">
-    <meta name="keywords" content="API, Dokumentasi API, REST API, NekoApis, Alat Pengembang">
-    <meta name="author" content="reicdrs">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://nekoapisproject.up.railway.app">
-    <meta property="og:title" content="NekoApis V1 - Dokumentasi API Modern">
-    <meta property="og:description" content="Jelajahi berbagai endpoint API kami dengan antarmuka yang modern dan mudah digunakan.">
-    <meta property="og:image" content="/src/banner.jpg">
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://nekoapisproject.up.railway.app">
-    <meta property="twitter:title" content="NekoApis V1 - Dokumentasi API Modern">
-    <meta property="twitter:description" content="Jelajahi berbagai endpoint API kami dengan antarmuka yang modern dan mudah digunakan.">
-    <meta property="twitter:image" content="/src/banner.jpg">
-    <link rel="icon" href="https://nekoapisproject.up.railway.app/src/icon.png" type="image/png">
-    <title id="page">NekoApis V1.</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NekoApis — REST API platform modern untuk developer.">
+  <meta name="keywords" content="API, REST API, NekoApis, reicdrs">
+  <meta name="author" content="reicdrs">
+  <meta property="og:url" content="https://nekoapisproject.up.railway.app">
+  <meta property="og:title" content="NekoApis — REST API Platform">
+  <meta property="og:description" content="REST API platform modern dan mudah digunakan.">
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="NekoApis — REST API Platform">
+  <link rel="icon" href="/src/icon.jpg" type="image/jpeg">
+  <title>NekoApis</title>
 
-    <script src="https://cdn.tailwindcss.com/"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'mono': ['Ubuntu Mono', 'monospace'],
-                        'sans': ['Inter', 'system-ui', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <style>
-        :root {
-            --background: #f9fbff;
-            --foreground: #2c3e50;
-            --card: #ffffff;
-            --card-foreground: #2c3e50;
-            --primary: #3498db;
-            --primary-foreground: #ffffff;
-            --secondary: #85c1e9;
-            --accent: #48d1cc;
-            --muted: #f1f5f9;
-            --muted-foreground: #7f8c8d;
-            --border: rgba(0, 0, 0, 0.08);
-            --radius: 0.5rem;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 6px 20px rgba(0, 0, 0, 0.12);
-        }
+    :root {
+      --bg: #0a0a0b;
+      --bg2: #111113;
+      --bg3: #1a1a1f;
+      --border: #1e1e24;
+      --border2: #2a2a34;
+      --text: #f0f0f5;
+      --text2: #8888a0;
+      --text3: #4a4a60;
+      --accent: #9b59b6;
+      --accent2: #7d3fa3;
+      --accent-dim: rgba(155,89,182,0.10);
+      --green: #2ecc71;
+      --radius: 8px;
+    }
 
-        body {
-            background-color: var(--background);
-            color: var(--foreground);
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+    html { scroll-behavior: smooth; }
 
-        #mouse-spotlight {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            background: radial-gradient(600px circle at 0px 0px, rgba(52, 152, 219, 0.08), transparent 80%);
-            transition: background 0.1s ease-out;
-        }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
 
-        header, .bg-card {
-            background-color: var(--card) !important;
-            border-color: var(--border) !important;
-            box-shadow: var(--shadow);
-        }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 
-        .bg-card-hover:hover {
-            border-color: var(--primary) !important;
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-3px) scale(1.02);
-        }
+    /* LOADER */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    #loader.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-ring {
+      width: 32px; height: 32px;
+      border: 2px solid var(--border2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-        .bg-primary {
-             background-color: var(--primary);
-             color: var(--primary-foreground);
-        }
+    /* HEADER */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(10,10,11,0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      max-width: 680px; margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--text);
+    }
+    .logo-icon {
+      width: 30px; height: 30px;
+      background: var(--accent);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .logo-name { font-size: 15px; font-weight: 600; letter-spacing: -0.3px; }
+    .logo-badge {
+      font-size: 10px; font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(155,89,182,0.2);
+      padding: 2px 8px; border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .header-nav { display: flex; gap: 20px; align-items: center; }
+    .header-nav a {
+      color: var(--text2); text-decoration: none;
+      font-size: 13px; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .header-nav a:hover { color: var(--text); }
+    .btn-header {
+      background: var(--accent) !important;
+      color: #fff !important;
+      padding: 7px 16px !important;
+      border-radius: var(--radius) !important;
+      font-weight: 600 !important;
+      font-size: 13px !important;
+      transition: background 0.2s, transform 0.15s !important;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .btn-header:hover { background: var(--accent2) !important; transform: translateY(-1px) !important; }
 
-        .bg-primary:hover {
-            filter: brightness(1.1);
-            box-shadow: var(--shadow);
-        }
+    /* MAIN */
+    main { max-width: 680px; margin: 0 auto; padding: 0 24px; }
 
-        .text-primary { color: var(--primary); }
-        .text-foreground { color: var(--foreground); }
-        .text-muted-foreground { color: var(--muted-foreground); }
+    /* HERO */
+    .hero { padding: 72px 0 48px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 22px;
+    }
+    .live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 0 rgba(46,204,113,0.4);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(46,204,113,0.4); }
+      50% { box-shadow: 0 0 0 5px rgba(46,204,113,0); }
+    }
+    .hero h1 {
+      font-size: clamp(34px, 6vw, 50px);
+      font-weight: 700;
+      letter-spacing: -1.8px;
+      line-height: 1.06;
+      margin-bottom: 18px;
+    }
+    .hero h1 .grad {
+      background: linear-gradient(120deg, var(--accent) 0%, #d7bde2 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-desc {
+      font-size: 15px; color: var(--text2); line-height: 1.75;
+      max-width: 480px; margin-bottom: 36px; font-weight: 400;
+    }
+    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+    .cta-primary, .cta-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px; border-radius: var(--radius);
+      font-size: 14px; font-weight: 600; text-decoration: none;
+      transition: all 0.2s ease; white-space: nowrap;
+    }
+    .cta-primary { background: var(--accent); color: #fff; }
+    .cta-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(155,89,182,0.28); }
+    .cta-secondary {
+      background: transparent; color: var(--text2);
+      border: 1px solid var(--border2);
+    }
+    .cta-secondary:hover { color: var(--text); background: var(--bg3); border-color: var(--border2); }
 
-        .border-primary { border-color: var(--primary); }
-        .border-default { border-color: var(--border); }
+    /* STATS */
+    .stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden; margin: 48px 0;
+      background: var(--border);
+      gap: 1px;
+    }
+    .stat { background: var(--bg2); padding: 22px 16px; text-align: center; transition: background 0.2s; }
+    .stat:hover { background: var(--bg3); }
+    .stat-val {
+      font-size: 28px; font-weight: 700; letter-spacing: -1.2px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .stat-val .ac { color: var(--accent); }
+    .stat-label {
+      font-size: 10px; color: var(--text3);
+      text-transform: uppercase; letter-spacing: 1px;
+      margin-top: 5px; font-weight: 600;
+    }
 
-        ::-webkit-scrollbar {
-            display: none !important;
-        }
+    /* SECTION */
+    .section-tag {
+      font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--text3);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+    }
+    .section-tag::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
 
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--background);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
-        }
+    /* FEATURES */
+    .features { margin-bottom: 56px; }
+    .feature-grid {
+      display: grid; gap: 1px;
+      background: var(--border); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .feature-item {
+      background: var(--bg2); padding: 20px 22px;
+      display: flex; align-items: flex-start; gap: 16px;
+      transition: background 0.2s;
+    }
+    .feature-item:hover { background: var(--bg3); }
+    .fi-icon {
+      width: 38px; height: 38px; border-radius: 9px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(155,89,182,0.15);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; color: var(--accent); font-size: 14px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .feature-item:hover .fi-icon { background: rgba(155,89,182,0.18); border-color: rgba(155,89,182,0.3); }
+    .fi-title { font-size: 14px; font-weight: 600; margin-bottom: 5px; color: var(--text); }
+    .fi-desc { font-size: 12px; color: var(--text2); line-height: 1.65; }
 
-        #loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
+    /* STEPS */
+    .getting-started { margin-bottom: 56px; }
+    .steps { display: flex; flex-direction: column; }
+    .step {
+      display: flex; gap: 16px; padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      transition: padding-left 0.25s ease;
+      cursor: default;
+    }
+    .step:first-child { padding-top: 0; }
+    .step:last-child { border-bottom: none; padding-bottom: 0; }
+    .step:hover { padding-left: 6px; }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent-dim);
+      border: 1px solid rgba(155,89,182,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: var(--accent);
+      flex-shrink: 0; font-family: 'JetBrains Mono', monospace;
+      margin-top: 1px;
+    }
+    .step-title { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+    .step-desc { font-size: 12px; color: var(--text2); line-height: 1.65; }
 
-        .spinner {
-            width: 48px;
-            height: 48px;
-            border: 4px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+    /* LINKS */
+    .links-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 56px; }
+    .link-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 16px;
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      color: var(--text2); text-decoration: none;
+      font-size: 13px; font-weight: 500;
+      transition: all 0.2s;
+    }
+    .link-chip i { font-size: 13px; }
+    .link-chip:hover { color: var(--text); border-color: var(--accent); background: var(--accent-dim); }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 0 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-left { font-size: 12px; color: var(--text3); }
+    .footer-right { display: flex; gap: 20px; }
+    .footer-right a { font-size: 12px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--text2); }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { opacity: 0; animation: fadeUp 0.5s ease forwards; }
+    .d1 { animation-delay: 0.06s; }
+    .d2 { animation-delay: 0.14s; }
+    .d3 { animation-delay: 0.22s; }
+    .d4 { animation-delay: 0.30s; }
+    .d5 { animation-delay: 0.38s; }
 
-        .animate-on-load {
-            opacity: 0;
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
+    .reveal { opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.vis { opacity: 1; transform: translateY(0); }
 
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            transition-delay: var(--delay, 0s);
-        }
-
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .feature-icon {
-            transition: transform 0.3s ease;
-        }
-        .bg-card-hover:hover .feature-icon {
-            transform: scale(1.1) rotate(-5deg);
-        }
-
-        .stat-item {
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-            border-radius: var(--radius);
-            padding: 0.5rem 0;
-        }
-        .stat-item:hover {
-            transform: translateY(-3px);
-            background-color: var(--card);
-            box-shadow: var(--shadow);
-        }
-
-        .step-item {
-            transition: transform 0.3s ease;
-        }
-        .step-item:hover {
-            transform: translateX(5px);
-        }
-        .step-number {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .step-item:hover .step-number {
-             transform: scale(1.1);
-             box-shadow: var(--shadow);
-        }
-    </style>
+    @media (max-width: 500px) {
+      .header-nav a:not(.btn-header) { display: none; }
+      .hero h1 { letter-spacing: -1.2px; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
-<body class="text-foreground antialiased font-mono min-h-screen">
+<body>
 
-    <div id="mouse-spotlight"></div>
-    <div id="loader">
-        <div class="spinner"></div>
-    </div>
+<div id="loader"><div class="loader-ring"></div></div>
 
-    <header class="sticky top-0 z-40 bg-card border-b py-5">
-        <div class="max-w-2xl mx-auto px-8 flex justify-between items-center">
-            <div class="flex items-center"></div>
-            <div class="flex items-center space-x-4"></div>
-        </div>
-    </header>
-
-    <main class="max-w-2xl mx-auto px-8 py-10">
-        <div class="text-left mb-6">
-            <p class="text-muted-foreground text-xs mb-4 animate-on-load" style="animation-delay: 0.1s;">Hi Developer! Welcome To</p>
-            <h2 class="flex flex-wrap items-center gap-1 text-3xl text-foreground font-bold mb-1.5 animate-on-load" style="animation-delay: 0.2s;">
-    <span class="flex-grow text-black">NekoApis</span>
-    <span class="text-xs font-bold text-white bg-black px-3 py-1 whitespace-nowrap">
-        v1.0
-    </span>
-</h2>
-            <p class="text-muted-foreground text-xs mx-auto mb-4 animate-on-load" style="animation-delay: 0.3s;">Powerful API platform for modern applications</p>
-
-            <div class="mb-4 animate-on-load" style="animation-delay: 0.4s;">
-    <a href="/docs" class="inline-block bg-black text-white px-6 py-2 rounded text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-        <i class="fas fa-rocket mr-2"></i>START
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">N</div>
+      <span class="logo-name">NekoApis</span>
+      <span class="logo-badge">v1.0</span>
     </a>
-</div>
+    <nav class="header-nav">
+      <a href="#features">Features</a>
+      <a href="#start">Getting Started</a>
+      <a href="/docs" class="btn-header"><i class="fas fa-terminal" style="font-size:11px"></i> Try API</a>
+    </nav>
+  </div>
+</header>
 
-            <div class="text-xs space-y-1 animate-on-load" style="animation-delay: 0.5s;">
-                <div>
-                    <a href="#features" class="text-foreground underline hover:text-primary">Features</a>
-                </div>
-                <div>
-                    <a href="https://github.com/Reyz2902" target="_blank" class="text-foreground underline hover:text-primary">GitHub</a>
-                </div>
-                <div>
-                  <a href="https://whatsapp.com/channel/0029Vb6pfuzJf05iZHfkli44" target="_blank" class="text-foreground underline hover:text-primary">
-                    WhatsApp Channel
-                  </a>
-                </div>
-                <div>
-                  <a href="https://t.me/ReyzID12" target="_blank" class="text-foreground underline hover:text-primary">
-                    Contact Me
-                  </a>
-                </div>
-            </div>
-        </div>
-<div class="bg-card border-default p-4 my-3 animate-on-scroll">
-    <div class="grid grid-cols-3 gap-4">
-        <div class="text-center stat-item">
-            <div id="total-endpoints" class="text-lg font-bold text-foreground">0</div>
-            <div class="text-xs text-muted-foreground">Endpoints</div>
-        </div>
-        <div class="text-center stat-item">
-            <div id="total-categories" class="text-lg font-bold text-foreground">0</div>
-            <div class="text-xs text-muted-foreground">Categories</div>
-        </div>
-        <div class="text-center stat-item">
-            <div class="text-lg font-bold text-foreground">24/7</div>
-            <div class="text-xs text-muted-foreground">Support</div>
-        </div>
+<main>
+
+  <section class="hero">
+    <div class="hero-eyebrow fade-up"><span class="live-dot"></span> API Platform · reicdrs</div>
+    <h1 class="fade-up d1">Fast APIs for<br><span class="grad">Modern Developers</span></h1>
+    <p class="hero-desc fade-up d2">
+      REST API cepat, andal, dan mudah diintegrasi ke project apapun. Response JSON bersih, dokumentasi lengkap, langsung pakai.
+    </p>
+    <div class="hero-cta fade-up d3">
+      <a href="/docs" class="cta-primary"><i class="fas fa-rocket" style="font-size:12px"></i> Explore Docs</a>
+      <a href="https://t.me/reicdrs" target="_blank" class="cta-secondary"><i class="fab fa-telegram" style="font-size:12px"></i> Contact</a>
     </div>
-</div>
+  </section>
+
+  <div class="stats reveal">
+    <div class="stat">
+      <div class="stat-val"><span class="ac" id="total-endpoints">—</span></div>
+      <div class="stat-label">Endpoints</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val"><span class="ac" id="total-categories">—</span></div>
+      <div class="stat-label">Categories</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">24<span style="font-size:15px;color:var(--text3);font-family:'Space Grotesk'">/7</span></div>
+      <div class="stat-label">Uptime</div>
+    </div>
+  </div>
+
+  <section class="features reveal" id="features">
+    <div class="section-tag">Features</div>
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="fi-icon"><i class="fas fa-bolt"></i></div>
+        <div>
+          <div class="fi-title">Fast & Reliable</div>
+          <div class="fi-desc">Latency rendah dengan uptime tinggi. Cocok untuk production dan bot WhatsApp.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon"><i class="fas fa-code"></i></div>
+        <div>
+          <div class="fi-title">Clean JSON Response</div>
+          <div class="fi-desc">Output JSON konsisten, terstruktur, dan mudah di-parse di semua bahasa pemrograman.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon"><i class="fas fa-layer-group"></i></div>
+        <div>
+          <div class="fi-title">Multi-Category</div>
+          <div class="fi-desc">AI, Downloader, Image, News, Anime — semua tersedia dalam satu platform.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon"><i class="fas fa-file-code"></i></div>
+        <div>
+          <div class="fi-title">Interactive Docs</div>
+          <div class="fi-desc">Dokumentasi berbasis OpenAPI dengan fitur Try It Out langsung dari browser.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="getting-started reveal" id="start">
+    <div class="section-tag">Getting Started</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div>
+          <div class="step-title">Pilih Kategori</div>
+          <div class="step-desc">Buka halaman Docs dan cari kategori API yang kamu butuhkan lewat sidebar atau search.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div>
+          <div class="step-title">Baca Dokumentasi</div>
+          <div class="step-desc">Cek endpoint, parameter yang dibutuhkan, dan format response JSON-nya.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div>
+          <div class="step-title">Integrasikan ke App</div>
+          <div class="step-desc">Kirim HTTP request dan gunakan JSON response di aplikasi, bot, atau script kamu.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="links-row reveal">
+    <a href="https://github.com/Reyz2902" target="_blank" class="link-chip">
+      <i class="fab fa-github"></i> GitHub
+    </a>
+    <a href="https://whatsapp.com/channel/0029Vb6pfuzJf05iZHfkli44" target="_blank" class="link-chip">
+      <i class="fab fa-whatsapp"></i> WhatsApp Channel
+    </a>
+    <a href="https://t.me/reicdrs" target="_blank" class="link-chip">
+      <i class="fab fa-telegram"></i> Telegram
+    </a>
+  </div>
+
+  <footer>
+    <div class="footer-left">© <span id="year"></span> NekoApis — All Rights Reserved</div>
+    <div class="footer-right">
+      <a href="/docs">Documentation</a>
+      <a href="https://t.me/reicdrs" target="_blank">Support</a>
+    </div>
+  </footer>
+
+</main>
 
 <script>
-async function updateStats() {
+  window.addEventListener('load', () => {
+    document.getElementById('loader').classList.add('gone');
+    document.getElementById('year').textContent = new Date().getFullYear();
+  });
+
+  async function updateStats() {
     try {
-        // Load JSON OpenAPI
-        const response = await fetch('/src/openapi.json');
-        const data = await response.json();
+      const res = await fetch('/src/openapi.json');
+      const data = await res.json();
+      const ep = Object.keys(data.paths || {}).length;
+      const cats = new Set((data.tags || []).map(t => t.name)).size;
+      if (ep) document.getElementById('total-endpoints').textContent = ep;
+      if (cats) document.getElementById('total-categories').textContent = cats;
+    } catch(e) {}
+  }
+  updateStats();
 
-        // Total endpoints
-        const totalEndpoints = Object.keys(data.paths || {}).length;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); } });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-        // Total kategori unik
-        const categories = new Set((data.tags || []).map(tag => tag.name));
-        const totalCategories = categories.size;
-
-        // Update HTML
-        document.getElementById('total-endpoints').textContent = totalEndpoints;
-        document.getElementById('total-categories').textContent = totalCategories;
-    } catch (err) {
-        console.error('Gagal load openapi.json', err);
-    }
-}
-
-// Jalankan saat halaman siap
-updateStats();
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 </script>
-
-        <div class="space-y-3" id="features">
-    <div class="bg-card border-default bg-card-hover transition-all duration-300 rounded-none animate-on-scroll">
-        <div class="px-4 py-4 flex items-center justify-between">
-            <div class="flex items-center min-w-0 flex-1">
-                <div class="feature-icon border-2 border-black w-8 h-8 flex items-center justify-center flex-shrink-0 mr-4">
-                    <i class="fas fa-bolt text-black text-sm"></i>
-                </div>
-                <div class="flex flex-col min-w-0 flex-1">
-                    <h3 class="font-bold text-sm text-foreground truncate">Fast & Reliable</h3>
-                    <p class="text-xs text-muted-foreground">High-performance API endpoints with low latency</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="bg-card border-default bg-card-hover transition-all duration-300 rounded-none animate-on-scroll" style="--delay: 0.1s;">
-        <div class="px-4 py-4 flex items-center justify-between">
-            <div class="flex items-center min-w-0 flex-1">
-                <div class="feature-icon border-2 border-black w-8 h-8 flex items-center justify-center flex-shrink-0 mr-4">
-                    <i class="fas fa-shield-alt text-black text-sm"></i>
-                </div>
-                <div class="flex flex-col min-w-0 flex-1">
-                    <h3 class="font-bold text-sm text-foreground truncate">Secure</h3>
-                    <p class="text-xs text-muted-foreground">Enterprise-grade security and encryption</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="bg-card border-default bg-card-hover transition-all duration-300 rounded-none animate-on-scroll" style="--delay: 0.2s;">
-        <div class="px-4 py-4 flex items-center justify-between">
-            <div class="flex items-center min-w-0 flex-1">
-                <div class="feature-icon border-2 border-black w-8 h-8 flex items-center justify-center flex-shrink-0 mr-4">
-                    <i class="fas fa-code text-black text-sm"></i>
-                </div>
-                <div class="flex flex-col min-w-0 flex-1">
-                    <h3 class="font-bold text-sm text-foreground truncate">Easy Integration</h3>
-                    <p class="text-xs text-muted-foreground">Simple REST API with clear documentation</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="bg-card border-default bg-card-hover transition-all duration-300 rounded-none animate-on-scroll" style="--delay: 0.3s;">
-        <div class="px-4 py-4 flex items-center justify-between">
-            <div class="flex items-center min-w-0 flex-1">
-                <div class="feature-icon border-2 border-black w-8 h-8 flex items-center justify-center flex-shrink-0 mr-4">
-                    <i class="fas fa-chart-line text-black text-sm"></i>
-                </div>
-                <div class="flex flex-col min-w-0 flex-1">
-                    <h3 class="font-bold text-sm text-foreground truncate">Analytics</h3>
-                    <p class="text-xs text-muted-foreground">Detailed usage analytics and monitoring</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="my-8"></div>
-<div class="bg-card border-default p-6 mb-6 rounded-none animate-on-scroll">
-    <h3 class="flex items-center gap-2 font-bold text-lg text-foreground mb-5">
-        <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-        </svg>
-        Getting Started
-    </h3>
-
-    <div class="space-y-4">
-        <div class="flex items-start gap-4 step-item">
-            <div class="step-number border-2 border-dashed border-black text-black w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold text-sm rounded-none">1</div>
-            <div class="flex-1">
-                <h4 class="font-bold text-sm text-foreground mb-1">Choose Your Category</h4>
-                <p class="text-xs text-muted-foreground">Browse through available API categories on sidebar and select what you need.</p>
-            </div>
-        </div>
-
-        <div class="flex items-start gap-4 step-item">
-            <div class="step-number border-2 border-dashed border-black text-black w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold text-sm rounded-none">2</div>
-            <div class="flex-1">
-                <h4 class="font-bold text-sm text-foreground mb-1">Read the Docs</h4>
-                <p class="text-xs text-muted-foreground">Check endpoint parameters, response format, and example usage.</p>
-            </div>
-        </div>
-
-        <div class="flex items-start gap-4 step-item">
-            <div class="step-number border-2 border-dashed border-black text-black w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold text-sm rounded-none">3</div>
-            <div class="flex-1">
-                <h4 class="font-bold text-sm text-foreground mb-1">Make Your Request</h4>
-                <p class="text-xs text-muted-foreground">Send HTTP requests and integrate the JSON response into your app.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="flex flex-col mt-10 text-center space-y-2 animate-on-scroll">
-  <p class="text-muted-foreground" style="font-size: 0.7rem; line-height: 1rem;">
-    © <span id="year"></span> NekoApis — All Rights Reserved.
-  </p>
-  <p class="text-muted-foreground space-x-3" style="font-size: 0.7rem; line-height: 1rem;">
-    <a href="/privacy-policy" class="hover:underline hover:text-black">Privacy Policy</a>
-    <span aria-hidden="true">|</span>
-    <a href="/terms-of-service" class="hover:underline hover:text-black">Terms of Service</a>
-  </p>
-</div>
-    </main>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const loader = document.getElementById('loader');
-            loader.classList.add('hidden');
-
-            document.getElementById("year").textContent = new Date().getFullYear();
-
-            const spotlight = document.getElementById('mouse-spotlight');
-            if (spotlight) {
-                document.addEventListener('mousemove', (e) => {
-                    spotlight.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(52, 152, 219, 0.08), transparent 80%)`;
-                });
-            }
-
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            const observerCallback = (entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            };
-
-            const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-            document.querySelectorAll('.animate-on-scroll').forEach(target => {
-                observer.observe(target);
-            });
-
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>
