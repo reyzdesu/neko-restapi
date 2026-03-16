@@ -1,440 +1,427 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="NekoApis — REST API platform modern untuk developer.">
-  <meta name="keywords" content="API, REST API, NekoApis, reicdrs">
-  <meta name="author" content="reicdrs">
-  <meta property="og:url" content="https://nekoapisproject.up.railway.app">
-  <meta property="og:title" content="NekoApis — REST API Platform">
-  <meta property="og:description" content="REST API platform modern dan mudah digunakan.">
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:title" content="NekoApis — REST API Platform">
-  <link rel="icon" href="/src/icon.jpg" type="image/jpeg">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="NekoApis — REST API for developers"/>
+  <meta name="author" content="reicdrs"/>
+  <meta property="og:title" content="NekoApis"/>
+  <meta property="og:url" content="https://nekoapisproject.up.railway.app"/>
+  <link rel="icon" href="/src/icon.jpg" type="image/jpeg"/>
   <title>NekoApis</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-    :root {
-      --bg: #0a0a0b;
-      --bg2: #111113;
-      --bg3: #1a1a1f;
-      --border: #1e1e24;
-      --border2: #2a2a34;
-      --text: #f0f0f5;
-      --text2: #8888a0;
-      --text3: #4a4a60;
-      --accent: #9b59b6;
-      --accent2: #7d3fa3;
-      --accent-dim: rgba(155,89,182,0.10);
-      --green: #2ecc71;
-      --radius: 8px;
+    :root{
+      --bg:#0c0c0e;
+      --bg2:#111116;
+      --bg3:#18181f;
+      --ln:#1f1f28;
+      --ln2:#2b2b38;
+      --fg:#c8c8d8;
+      --fg2:#7070a0;
+      --fg3:#404058;
+      --acc:#a78bfa;
+      --acc2:#7c3aed;
+      --grn:#34d399;
+      --red:#f87171;
+      --ylw:#fbbf24;
+      --cyn:#67e8f9;
+      --f:  'Fira Code', monospace;
     }
 
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Space Grotesk', sans-serif;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
+    html{scroll-behavior:smooth}
+    body{
+      background:var(--bg);
+      color:var(--fg);
+      font-family:var(--f);
+      font-size:13px;
+      min-height:100vh;
+      -webkit-font-smoothing:antialiased;
+      /* subtle scanline */
+      background-image:repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.012) 2px,
+        rgba(255,255,255,0.012) 4px
+      );
     }
 
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+    ::-webkit-scrollbar{width:3px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--ln2)}
 
     /* LOADER */
-    #loader {
-      position: fixed; inset: 0;
-      background: var(--bg);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
+    #loader{
+      position:fixed;inset:0;background:var(--bg);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+      z-index:9999;transition:opacity .35s ease,visibility .35s ease;
     }
-    #loader.gone { opacity: 0; visibility: hidden; pointer-events: none; }
-    .loader-ring {
-      width: 32px; height: 32px;
-      border: 2px solid var(--border2);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+    #loader.gone{opacity:0;visibility:hidden;pointer-events:none}
+    .ld-bar{
+      width:180px;height:2px;background:var(--ln);
+      border-radius:2px;overflow:hidden;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .ld-fill{
+      height:100%;width:0;background:var(--acc);
+      animation:ldbar .6s ease forwards;
+    }
+    @keyframes ldbar{to{width:100%}}
+    .ld-txt{font-size:11px;color:var(--fg3);letter-spacing:.5px}
 
     /* HEADER */
-    header {
-      position: sticky; top: 0; z-index: 50;
-      background: rgba(10,10,11,0.9);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
+    header{
+      position:sticky;top:0;z-index:50;
+      background:rgba(12,12,14,.92);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--ln);
     }
-    .header-inner {
-      max-width: 680px; margin: 0 auto;
-      padding: 0 24px;
-      height: 56px;
-      display: flex; align-items: center; justify-content: space-between;
+    .hdr{
+      max-width:780px;margin:0 auto;padding:0 24px;
+      height:50px;display:flex;align-items:center;justify-content:space-between;
     }
-    .logo {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none; color: var(--text);
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--fg)}
+    .logo-sig{
+      font-size:15px;font-weight:600;letter-spacing:-0.5px;color:var(--fg);
     }
-    .logo-icon {
-      width: 30px; height: 30px;
-      background: var(--accent);
-      border-radius: 7px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700; color: #fff;
-      font-family: 'JetBrains Mono', monospace;
+    .logo-sig span{color:var(--acc)}
+    .logo-v{
+      font-size:10px;color:var(--fg3);padding:2px 7px;
+      border:1px solid var(--ln2);border-radius:3px;
+      letter-spacing:.5px;
     }
-    .logo-name { font-size: 15px; font-weight: 600; letter-spacing: -0.3px; }
-    .logo-badge {
-      font-size: 10px; font-weight: 500;
-      color: var(--accent);
-      background: var(--accent-dim);
-      border: 1px solid rgba(155,89,182,0.2);
-      padding: 2px 8px; border-radius: 20px;
-      font-family: 'JetBrains Mono', monospace;
+    .hdr-nav{display:flex;align-items:center;gap:4px}
+    .hdr-nav a{
+      color:var(--fg2);text-decoration:none;font-size:12px;
+      padding:5px 10px;border-radius:4px;
+      transition:color .15s,background .15s;
     }
-    .header-nav { display: flex; gap: 20px; align-items: center; }
-    .header-nav a {
-      color: var(--text2); text-decoration: none;
-      font-size: 13px; font-weight: 500;
-      transition: color 0.2s;
+    .hdr-nav a:hover{color:var(--fg);background:var(--bg3)}
+    .hdr-cta{
+      color:var(--bg)!important;background:var(--acc)!important;
+      padding:6px 14px!important;font-weight:600!important;font-size:12px!important;
+      border-radius:4px!important;transition:background .15s,transform .1s!important;
     }
-    .header-nav a:hover { color: var(--text); }
-    .btn-header {
-      background: var(--accent) !important;
-      color: #fff !important;
-      padding: 7px 16px !important;
-      border-radius: var(--radius) !important;
-      font-weight: 600 !important;
-      font-size: 13px !important;
-      transition: background 0.2s, transform 0.15s !important;
-      display: flex; align-items: center; gap: 7px;
-    }
-    .btn-header:hover { background: var(--accent2) !important; transform: translateY(-1px) !important; }
+    .hdr-cta:hover{background:var(--acc2)!important;transform:translateY(-1px)!important}
 
     /* MAIN */
-    main { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+    main{max-width:780px;margin:0 auto;padding:0 24px}
 
     /* HERO */
-    .hero { padding: 72px 0 48px; }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 11px; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase;
-      color: var(--accent);
-      font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 22px;
+    .hero{padding:64px 0 0}
+    .hero-pre{
+      font-size:11px;color:var(--fg3);margin-bottom:10px;
+      display:flex;align-items:center;gap:8px;
     }
-    .live-dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 0 0 rgba(46,204,113,0.4);
-      animation: pulse-dot 2s ease-in-out infinite;
+    .hero-pre::before{content:'//';color:var(--acc);margin-right:2px}
+    .dot-live{
+      width:6px;height:6px;border-radius:50%;background:var(--grn);
+      box-shadow:0 0 0 0 rgba(52,211,153,.5);
+      animation:pulse-live 2s ease-in-out infinite;
+      display:inline-block;
     }
-    @keyframes pulse-dot {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(46,204,113,0.4); }
-      50% { box-shadow: 0 0 0 5px rgba(46,204,113,0); }
+    @keyframes pulse-live{
+      0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,.4)}
+      50%{box-shadow:0 0 0 6px rgba(52,211,153,0)}
     }
-    .hero h1 {
-      font-size: clamp(34px, 6vw, 50px);
-      font-weight: 700;
-      letter-spacing: -1.8px;
-      line-height: 1.06;
-      margin-bottom: 18px;
+
+    .hero-title{
+      font-size:clamp(28px,5vw,44px);
+      font-weight:700;
+      line-height:1.08;
+      letter-spacing:-1.5px;
+      margin-bottom:4px;
     }
-    .hero h1 .grad {
-      background: linear-gradient(120deg, var(--accent) 0%, #d7bde2 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .hero-title .t1{color:var(--fg)}
+    .hero-title .t2{color:var(--acc)}
+    .hero-title .t3{color:var(--fg2)}
+
+    .hero-sub{
+      font-size:12px;color:var(--fg2);
+      line-height:1.8;max-width:500px;
+      margin:16px 0 32px;
     }
-    .hero-desc {
-      font-size: 15px; color: var(--text2); line-height: 1.75;
-      max-width: 480px; margin-bottom: 36px; font-weight: 400;
+    .hero-sub .hl{color:var(--cyn)}
+
+    .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:52px}
+    .btn-prim,.btn-sec{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 20px;border-radius:5px;
+      font-size:12px;font-weight:600;font-family:var(--f);
+      text-decoration:none;transition:all .18s;white-space:nowrap;
+      border:1px solid transparent;
     }
-    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
-    .cta-primary, .cta-secondary {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 11px 22px; border-radius: var(--radius);
-      font-size: 14px; font-weight: 600; text-decoration: none;
-      transition: all 0.2s ease; white-space: nowrap;
+    .btn-prim{background:var(--acc);color:var(--bg);border-color:var(--acc)}
+    .btn-prim:hover{background:var(--acc2);border-color:var(--acc2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,.3)}
+    .btn-sec{background:transparent;color:var(--fg2);border-color:var(--ln2)}
+    .btn-sec:hover{color:var(--fg);background:var(--bg3);border-color:var(--fg3)}
+
+    /* DIVIDER */
+    .div-line{
+      border:none;border-top:1px solid var(--ln);
+      margin:0 0 40px;position:relative;
     }
-    .cta-primary { background: var(--accent); color: #fff; }
-    .cta-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(155,89,182,0.28); }
-    .cta-secondary {
-      background: transparent; color: var(--text2);
-      border: 1px solid var(--border2);
+    .div-line::before{
+      content:attr(data-label);
+      position:absolute;top:-9px;left:0;
+      font-size:10px;color:var(--fg3);
+      background:var(--bg);padding-right:10px;
+      letter-spacing:1px;
     }
-    .cta-secondary:hover { color: var(--text); background: var(--bg3); border-color: var(--border2); }
 
     /* STATS */
-    .stats {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden; margin: 48px 0;
-      background: var(--border);
-      gap: 1px;
+    .stats{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      border:1px solid var(--ln);border-radius:5px;
+      overflow:hidden;background:var(--ln);gap:1px;
+      margin-bottom:48px;
     }
-    .stat { background: var(--bg2); padding: 22px 16px; text-align: center; transition: background 0.2s; }
-    .stat:hover { background: var(--bg3); }
-    .stat-val {
-      font-size: 28px; font-weight: 700; letter-spacing: -1.2px;
-      font-family: 'JetBrains Mono', monospace;
+    .stat{
+      background:var(--bg2);padding:20px 16px;
+      display:flex;flex-direction:column;gap:4px;
     }
-    .stat-val .ac { color: var(--accent); }
-    .stat-label {
-      font-size: 10px; color: var(--text3);
-      text-transform: uppercase; letter-spacing: 1px;
-      margin-top: 5px; font-weight: 600;
-    }
+    .stat-k{font-size:10px;color:var(--fg3);letter-spacing:1px;text-transform:uppercase}
+    .stat-v{font-size:24px;font-weight:700;color:var(--fg);letter-spacing:-1px}
+    .stat-v .ac{color:var(--acc)}
+    .stat-v .sm{font-size:14px;color:var(--fg3)}
 
-    /* SECTION */
-    .section-tag {
-      font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
-      text-transform: uppercase; color: var(--text3);
-      font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+    /* SECTION TAG */
+    .stag{
+      font-size:10px;color:var(--fg3);letter-spacing:1.5px;
+      text-transform:uppercase;margin-bottom:16px;
+      display:flex;align-items:center;gap:10px;
     }
-    .section-tag::after {
-      content: ''; flex: 1; height: 1px; background: var(--border);
-    }
+    .stag::before{content:'§';color:var(--acc);font-size:12px}
+    .stag::after{content:'';flex:1;height:1px;background:var(--ln)}
 
-    /* FEATURES */
-    .features { margin-bottom: 56px; }
-    .feature-grid {
-      display: grid; gap: 1px;
-      background: var(--border); border: 1px solid var(--border);
-      border-radius: var(--radius); overflow: hidden;
+    /* FEATURE LIST */
+    .feat-list{margin-bottom:52px}
+    .feat-item{
+      display:flex;align-items:flex-start;gap:14px;
+      padding:14px 0;border-bottom:1px solid var(--ln);
+      transition:padding-left .2s;
     }
-    .feature-item {
-      background: var(--bg2); padding: 20px 22px;
-      display: flex; align-items: flex-start; gap: 16px;
-      transition: background 0.2s;
+    .feat-item:first-child{border-top:1px solid var(--ln)}
+    .feat-item:hover{padding-left:6px}
+    .feat-sym{
+      font-size:12px;color:var(--acc);width:24px;flex-shrink:0;
+      padding-top:1px;font-weight:600;
     }
-    .feature-item:hover { background: var(--bg3); }
-    .fi-icon {
-      width: 38px; height: 38px; border-radius: 9px;
-      background: var(--accent-dim);
-      border: 1px solid rgba(155,89,182,0.15);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; color: var(--accent); font-size: 14px;
-      transition: background 0.2s, border-color 0.2s;
+    .feat-body{}
+    .feat-name{font-size:13px;font-weight:600;color:var(--fg);margin-bottom:4px}
+    .feat-desc{font-size:11px;color:var(--fg2);line-height:1.7}
+    .feat-tag{
+      display:inline-block;font-size:9px;padding:1px 6px;
+      border:1px solid var(--ln2);border-radius:3px;color:var(--fg3);
+      margin-left:6px;vertical-align:middle;letter-spacing:.5px;
     }
-    .feature-item:hover .fi-icon { background: rgba(155,89,182,0.18); border-color: rgba(155,89,182,0.3); }
-    .fi-title { font-size: 14px; font-weight: 600; margin-bottom: 5px; color: var(--text); }
-    .fi-desc { font-size: 12px; color: var(--text2); line-height: 1.65; }
 
     /* STEPS */
-    .getting-started { margin-bottom: 56px; }
-    .steps { display: flex; flex-direction: column; }
-    .step {
-      display: flex; gap: 16px; padding: 20px 0;
-      border-bottom: 1px solid var(--border);
-      transition: padding-left 0.25s ease;
-      cursor: default;
+    .steps{margin-bottom:52px}
+    .step{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--ln)}
+    .step:first-child{border-top:1px solid var(--ln)}
+    .step-n{
+      font-size:10px;color:var(--acc);font-weight:700;width:28px;
+      flex-shrink:0;padding-top:2px;letter-spacing:.5px;
     }
-    .step:first-child { padding-top: 0; }
-    .step:last-child { border-bottom: none; padding-bottom: 0; }
-    .step:hover { padding-left: 6px; }
-    .step-num {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: var(--accent-dim);
-      border: 1px solid rgba(155,89,182,0.25);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 700; color: var(--accent);
-      flex-shrink: 0; font-family: 'JetBrains Mono', monospace;
-      margin-top: 1px;
+    .step-title{font-size:13px;font-weight:600;margin-bottom:5px;color:var(--fg)}
+    .step-desc{font-size:11px;color:var(--fg2);line-height:1.7}
+    .step-code{
+      display:inline-block;margin-top:6px;
+      font-size:10px;color:var(--cyn);
+      background:rgba(103,232,249,.06);
+      border:1px solid rgba(103,232,249,.12);
+      padding:3px 9px;border-radius:3px;
     }
-    .step-title { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
-    .step-desc { font-size: 12px; color: var(--text2); line-height: 1.65; }
 
     /* LINKS */
-    .links-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 56px; }
-    .link-chip {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 9px 16px;
-      background: var(--bg2); border: 1px solid var(--border2);
-      border-radius: var(--radius);
-      color: var(--text2); text-decoration: none;
-      font-size: 13px; font-weight: 500;
-      transition: all 0.2s;
+    .links{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:52px}
+    .lnk{
+      display:inline-flex;align-items:center;gap:7px;
+      padding:8px 14px;
+      background:var(--bg2);border:1px solid var(--ln2);
+      border-radius:4px;color:var(--fg2);text-decoration:none;
+      font-size:11px;font-weight:500;letter-spacing:.3px;
+      transition:all .18s;
     }
-    .link-chip i { font-size: 13px; }
-    .link-chip:hover { color: var(--text); border-color: var(--accent); background: var(--accent-dim); }
+    .lnk::before{content:'↗';font-size:10px;color:var(--fg3)}
+    .lnk:hover{color:var(--fg);border-color:var(--acc);background:rgba(167,139,250,.07)}
+    .lnk:hover::before{color:var(--acc)}
 
     /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 0 48px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 12px;
+    footer{
+      border-top:1px solid var(--ln);
+      padding:20px 0 40px;
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:10px;
     }
-    .footer-left { font-size: 12px; color: var(--text3); }
-    .footer-right { display: flex; gap: 20px; }
-    .footer-right a { font-size: 12px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
-    .footer-right a:hover { color: var(--text2); }
+    .ft-l{font-size:11px;color:var(--fg3)}
+    .ft-l span{color:var(--fg2)}
+    .ft-r{display:flex;gap:16px}
+    .ft-r a{font-size:11px;color:var(--fg3);text-decoration:none;transition:color .15s}
+    .ft-r a:hover{color:var(--fg2)}
+
+    /* CURSOR BLINK */
+    .cursor{
+      display:inline-block;width:2px;height:14px;background:var(--acc);
+      animation:blink .9s step-end infinite;vertical-align:middle;margin-left:3px;
+    }
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
     /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-up { opacity: 0; animation: fadeUp 0.5s ease forwards; }
-    .d1 { animation-delay: 0.06s; }
-    .d2 { animation-delay: 0.14s; }
-    .d3 { animation-delay: 0.22s; }
-    .d4 { animation-delay: 0.30s; }
-    .d5 { animation-delay: 0.38s; }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .fu{opacity:0;animation:fadeUp .45s ease forwards}
+    .fu1{animation-delay:.05s}.fu2{animation-delay:.12s}
+    .fu3{animation-delay:.19s}.fu4{animation-delay:.26s}
+    .rv{opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
+    .rv.on{opacity:1;transform:translateY(0)}
 
-    .reveal { opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; }
-    .reveal.vis { opacity: 1; transform: translateY(0); }
-
-    @media (max-width: 500px) {
-      .header-nav a:not(.btn-header) { display: none; }
-      .hero h1 { letter-spacing: -1.2px; }
-      footer { flex-direction: column; align-items: flex-start; }
+    @media(max-width:500px){
+      .hdr-nav a:not(.hdr-cta){display:none}
+      footer{flex-direction:column;align-items:flex-start}
+      .stats{grid-template-columns:1fr 1fr}
     }
   </style>
 </head>
 <body>
 
-<div id="loader"><div class="loader-ring"></div></div>
+<div id="loader">
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+  <div class="ld-txt">initializing...</div>
+</div>
 
 <header>
-  <div class="header-inner">
+  <div class="hdr">
     <a href="/" class="logo">
-      <div class="logo-icon">N</div>
-      <span class="logo-name">NekoApis</span>
-      <span class="logo-badge">v1.0</span>
+      <span class="logo-sig">neko<span>apis</span></span>
+      <span class="logo-v">v1.0</span>
     </a>
-    <nav class="header-nav">
-      <a href="#features">Features</a>
-      <a href="#start">Getting Started</a>
-      <a href="/docs" class="btn-header"><i class="fas fa-terminal" style="font-size:11px"></i> Try API</a>
+    <nav class="hdr-nav">
+      <a href="#feat">features</a>
+      <a href="#start">docs</a>
+      <a href="/docs" class="hdr-cta">→ try api</a>
     </nav>
   </div>
 </header>
 
 <main>
-
   <section class="hero">
-    <div class="hero-eyebrow fade-up"><span class="live-dot"></span> API Platform · reicdrs</div>
-    <h1 class="fade-up d1">Fast APIs for<br><span class="grad">Modern Developers</span></h1>
-    <p class="hero-desc fade-up d2">
-      REST API cepat, andal, dan mudah diintegrasi ke project apapun. Response JSON bersih, dokumentasi lengkap, langsung pakai.
+    <div class="hero-pre fu"><span class="dot-live"></span>&nbsp;online · reicdrs · railway</div>
+    <h1 class="hero-title fu fu1">
+      <div class="t1">Fast REST APIs</div>
+      <div class="t2">for developers<span class="cursor"></span></div>
+      <div class="t3">// nekoapisproject</div>
+    </h1>
+    <p class="hero-sub fu fu2">
+      Kumpulan API siap pakai — <span class="hl">downloader</span>, AI, image, news, anime.
+      Response JSON bersih, langsung integrasi ke bot atau app kamu.
     </p>
-    <div class="hero-cta fade-up d3">
-      <a href="/docs" class="cta-primary"><i class="fas fa-rocket" style="font-size:12px"></i> Explore Docs</a>
-      <a href="https://t.me/reicdrs" target="_blank" class="cta-secondary"><i class="fab fa-telegram" style="font-size:12px"></i> Contact</a>
+    <div class="cta-row fu fu3">
+      <a href="/docs" class="btn-prim">$ explore docs</a>
+      <a href="https://t.me/reicdrs" target="_blank" class="btn-sec">contact reicdrs</a>
     </div>
   </section>
 
-  <div class="stats reveal">
+  <hr class="div-line" data-label="// STATS"/>
+
+  <div class="stats rv">
     <div class="stat">
-      <div class="stat-val"><span class="ac" id="total-endpoints">—</span></div>
-      <div class="stat-label">Endpoints</div>
+      <div class="stat-k">endpoints</div>
+      <div class="stat-v"><span class="ac" id="total-endpoints">··</span></div>
     </div>
     <div class="stat">
-      <div class="stat-val"><span class="ac" id="total-categories">—</span></div>
-      <div class="stat-label">Categories</div>
+      <div class="stat-k">categories</div>
+      <div class="stat-v"><span class="ac" id="total-cats">··</span></div>
     </div>
     <div class="stat">
-      <div class="stat-val">24<span style="font-size:15px;color:var(--text3);font-family:'Space Grotesk'">/7</span></div>
-      <div class="stat-label">Uptime</div>
+      <div class="stat-k">uptime</div>
+      <div class="stat-v">24<span class="sm">/7</span></div>
     </div>
   </div>
 
-  <section class="features reveal" id="features">
-    <div class="section-tag">Features</div>
-    <div class="feature-grid">
-      <div class="feature-item">
-        <div class="fi-icon"><i class="fas fa-bolt"></i></div>
-        <div>
-          <div class="fi-title">Fast & Reliable</div>
-          <div class="fi-desc">Latency rendah dengan uptime tinggi. Cocok untuk production dan bot WhatsApp.</div>
-        </div>
+  <section class="feat-list rv" id="feat">
+    <div class="stag">features</div>
+
+    <div class="feat-item">
+      <div class="feat-sym">[✦]</div>
+      <div class="feat-body">
+        <div class="feat-name">Fast &amp; Low Latency <span class="feat-tag">CORE</span></div>
+        <div class="feat-desc">Response cepat, cocok untuk bot WhatsApp realtime. Endpoint tidak bottleneck.</div>
       </div>
-      <div class="feature-item">
-        <div class="fi-icon"><i class="fas fa-code"></i></div>
-        <div>
-          <div class="fi-title">Clean JSON Response</div>
-          <div class="fi-desc">Output JSON konsisten, terstruktur, dan mudah di-parse di semua bahasa pemrograman.</div>
-        </div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-sym">[⬡]</div>
+      <div class="feat-body">
+        <div class="feat-name">Clean JSON Output <span class="feat-tag">API</span></div>
+        <div class="feat-desc">Semua endpoint return JSON terstruktur — status, creator, data. Konsisten di semua route.</div>
       </div>
-      <div class="feature-item">
-        <div class="fi-icon"><i class="fas fa-layer-group"></i></div>
-        <div>
-          <div class="fi-title">Multi-Category</div>
-          <div class="fi-desc">AI, Downloader, Image, News, Anime — semua tersedia dalam satu platform.</div>
-        </div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-sym">[◈]</div>
+      <div class="feat-body">
+        <div class="feat-name">Multi-Category <span class="feat-tag">CONTENT</span></div>
+        <div class="feat-desc">AI · Downloader · Image · News · Anime — semua di satu base URL, satu integrasi.</div>
       </div>
-      <div class="feature-item">
-        <div class="fi-icon"><i class="fas fa-file-code"></i></div>
-        <div>
-          <div class="fi-title">Interactive Docs</div>
-          <div class="fi-desc">Dokumentasi berbasis OpenAPI dengan fitur Try It Out langsung dari browser.</div>
-        </div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-sym">[◇]</div>
+      <div class="feat-body">
+        <div class="feat-name">Interactive Docs <span class="feat-tag">DEV</span></div>
+        <div class="feat-desc">Try It Out langsung dari browser. OpenAPI spec tersedia di /openapi.json.</div>
       </div>
     </div>
   </section>
 
-  <section class="getting-started reveal" id="start">
-    <div class="section-tag">Getting Started</div>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <div>
-          <div class="step-title">Pilih Kategori</div>
-          <div class="step-desc">Buka halaman Docs dan cari kategori API yang kamu butuhkan lewat sidebar atau search.</div>
-        </div>
+  <section class="steps rv" id="start">
+    <div class="stag">getting started</div>
+
+    <div class="step">
+      <div class="step-n">01.</div>
+      <div>
+        <div class="step-title">Buka Docs</div>
+        <div class="step-desc">Klik "explore docs" atau langsung ke /docs. Pilih kategori dari list.</div>
+        <span class="step-code">GET /docs</span>
       </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <div>
-          <div class="step-title">Baca Dokumentasi</div>
-          <div class="step-desc">Cek endpoint, parameter yang dibutuhkan, dan format response JSON-nya.</div>
-        </div>
+    </div>
+    <div class="step">
+      <div class="step-n">02.</div>
+      <div>
+        <div class="step-title">Cek Parameter</div>
+        <div class="step-desc">Expand endpoint, lihat required params, lalu test langsung dari halaman docs.</div>
+        <span class="step-code">curl -X GET "https://nekoapisproject.up.railway.app/api/..."</span>
       </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <div>
-          <div class="step-title">Integrasikan ke App</div>
-          <div class="step-desc">Kirim HTTP request dan gunakan JSON response di aplikasi, bot, atau script kamu.</div>
-        </div>
+    </div>
+    <div class="step">
+      <div class="step-n">03.</div>
+      <div>
+        <div class="step-title">Integrasi</div>
+        <div class="step-desc">Parse JSON response dan gunakan di bot, app, atau script. Selesai.</div>
+        <span class="step-code">const data = await fetch('/api/...').then(r => r.json())</span>
       </div>
     </div>
   </section>
 
-  <div class="links-row reveal">
-    <a href="https://github.com/Reyz2902" target="_blank" class="link-chip">
-      <i class="fab fa-github"></i> GitHub
-    </a>
-    <a href="https://whatsapp.com/channel/0029Vb6pfuzJf05iZHfkli44" target="_blank" class="link-chip">
-      <i class="fab fa-whatsapp"></i> WhatsApp Channel
-    </a>
-    <a href="https://t.me/reicdrs" target="_blank" class="link-chip">
-      <i class="fab fa-telegram"></i> Telegram
-    </a>
+  <div class="links rv">
+    <a href="https://github.com/Reyz2902" target="_blank" class="lnk">github</a>
+    <a href="https://whatsapp.com/channel/0029Vb6pfuzJf05iZHfkli44" target="_blank" class="lnk">wa channel</a>
+    <a href="https://t.me/reicdrs" target="_blank" class="lnk">telegram</a>
+    <a href="/docs" class="lnk">api docs</a>
+    <a href="/src/openapi.json" target="_blank" class="lnk">openapi.json</a>
   </div>
 
   <footer>
-    <div class="footer-left">© <span id="year"></span> NekoApis — All Rights Reserved</div>
-    <div class="footer-right">
-      <a href="/docs">Documentation</a>
-      <a href="https://t.me/reicdrs" target="_blank">Support</a>
+    <div class="ft-l">© <span id="year"></span> <span>nekoapisproject</span> · by reicdrs</div>
+    <div class="ft-r">
+      <a href="/docs">documentation</a>
+      <a href="https://t.me/reicdrs" target="_blank">support</a>
     </div>
   </footer>
-
 </main>
 
 <script>
@@ -443,28 +430,25 @@
     document.getElementById('year').textContent = new Date().getFullYear();
   });
 
-  async function updateStats() {
+  (async () => {
     try {
-      const res = await fetch('/src/openapi.json');
-      const data = await res.json();
-      const ep = Object.keys(data.paths || {}).length;
-      const cats = new Set((data.tags || []).map(t => t.name)).size;
+      const d = await fetch('/src/openapi.json').then(r => r.json());
+      const ep = Object.keys(d.paths || {}).length;
+      const cats = new Set((d.tags || []).map(t => t.name)).size;
       if (ep) document.getElementById('total-endpoints').textContent = ep;
-      if (cats) document.getElementById('total-categories').textContent = cats;
-    } catch(e) {}
-  }
-  updateStats();
+      if (cats) document.getElementById('total-cats').textContent = cats;
+    } catch(_) {}
+  })();
 
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); } });
-  }, { threshold: 0.06 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  const obs = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
-      const t = document.querySelector(a.getAttribute('href'));
-      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
     });
   });
 </script>
